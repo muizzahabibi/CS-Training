@@ -94,7 +94,7 @@ def save_history():
 	 st.markdown(f"_Sukses backup chat : *{filename}*_", unsafe_allow_html=True)
 
 def main():
-    download_button = st.button("Download History", on_click=save_history)
+    # download_button = st.button("Download History", on_click=save_history)
     st.title("Chat with Habibi, Raga Pool Assistant🤖")
 
     text_input_container = st.empty()
