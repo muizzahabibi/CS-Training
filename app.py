@@ -1,5 +1,5 @@
 from anthropic import Anthropic
-from config import IDENTITY, TASK_SPECIFIC_INSTRUCTIONS
+from config import SALES, SALES_MANAGER, CUSTOMER, TASK_SPECIFIC_INSTRUCTIONS
 from dotenv import load_dotenv
 import streamlit as st
 import time, json
@@ -7,16 +7,17 @@ import time, json
 load_dotenv()
 
 class ChatBot:
-    def __init__(self, session_state, api_k):
+    def __init__(self, session_state, api_k,peran):
         self.anthropic = Anthropic(api_key=api_k)
         self.session_state = session_state
+        self.perannya = peran
 
-    def generate_message(self, messages, max_tokens):
+    def generate_message(self, messages, max_tokens, perannya):
         try:
             system_content = [
                 {
                     "type": "text",
-                    "text": IDENTITY,
+                    "text": perannya,
                     "cache_control": {"type": "ephemeral"}
                 },
                 {
@@ -37,12 +38,13 @@ class ChatBot:
         except Exception as e:
             return {"error": str(e)}
 
-    def process_user_input(self, user_input):
+    def process_user_input(self, user_input, perannya):
         self.session_state.messages.append({"role": "user", "content": user_input})
 
         response_message = self.generate_message(
             messages=self.session_state.messages,
             max_tokens=2048,
+            perannya
         )
 
         if "error" in response_message:
@@ -51,6 +53,7 @@ class ChatBot:
         follow_up_response = self.generate_message(
             messages=self.session_state.messages,
             max_tokens=2048,
+            perannya
         )
 
         if "error" in follow_up_response:
@@ -97,8 +100,10 @@ def main():
     # download_button = st.button("Download History", on_click=save_history)
     st.title("Chat with Habibi, Raga Pool Assistant🤖")
 
+    radio_input_container = st.empty()
     text_input_container = st.empty()
 
+    peran = radio_input_container.radio("Pilih peran yang akan dijalani oleh AI",["SALES","SALES_MANAGER","CUSTOMER"]) 
     user_claude_api_key = text_input_container.text_input("Enter your Anthropic API Key:", placeholder="sk-...", type="password")
     if user_claude_api_key:
         api_k = user_claude_api_key
@@ -107,13 +112,15 @@ def main():
 
     if user_claude_api_key:
         text_input_container.empty()
+        radio_input_container.empty()
+
         if "messages" not in st.session_state:
             st.session_state.messages = [
                 {'role': "user", "content": "Halo Raga Pool"},
                 {'role': "assistant", "content": "Understood"},
             ]
 
-        chatbot = ChatBot(st.session_state, api_k)
+        chatbot = ChatBot(st.session_state, api_k, peran)
 
         # Display user and assistant messages skipping the first two
         for message in st.session_state.messages[2:]:
