@@ -73,25 +73,28 @@ class ChatBot:
 
 
 def save_history():
-	 """
-	 Save the history messages and provide a download link.
-	 """
-	 if not st.session_state.messages:
-		  st.info("No Messages", icon="ℹ️")
-		  st.stop()
+    """
+    Save the history messages and provide a download link.
+    """
+    if not st.session_state.messages:
+        st.info("No Messages", icon="ℹ️")
+        st.stop()
 
-	 # Generate save title
-	 save_title = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
-	 messages_json = json.dumps(st.session_state["messages"][2:])
+    # Generate save title
+    save_title = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
+    messages_json = json.dumps(st.session_state["messages"][2:], indent=4)
 
-	 # Save the JSON string to a file
-	 filename = f"backup/messages_{save_title}.json"
-	 with open(filename, "w") as file:
-		  file.write(messages_json)
-	 
-	 # Provide download link
-	 # file_link = f"[Download History](./{filename})"
-	 st.markdown(f"_Sukses backup chat : *{filename}*_", unsafe_allow_html=True)
+    # Convert JSON string to bytes for download
+    json_bytes = messages_json.encode('utf-8')
+
+    # Provide download button for the JSON file
+    st.download_button(
+        label="Download History",
+        data=json_bytes,
+        file_name=f"messages_{save_title}.json",
+        mime="application/json"
+    )
+    st.success(f"Sukses backup chat: *messages_{save_title}.json*")
 
 # Fungsi untuk membuat kunci dari password
 def derive_key_from_password(password: str, salt: bytes) -> bytes:
@@ -122,7 +125,10 @@ def main():
     salt = b'\xb9\xe1z\xed\xfd\x84GF>w\x9c\xe6\xfd\x17\r\x14'
 
 
-    # download_button = st.button("Download History", on_click=save_history)
+    if st.button("Save History"):
+        save_history()
+
+    dl = st.empty()
     st.title("Chat with Habibi, Raga Pool Assistant🤖")
 
     radio_input_container = st.empty()
@@ -132,7 +138,7 @@ def main():
     passwrd = text_input_container.text_input("Masukan passwordnya :", placeholder="***", type="password")
     
     api_k = ""
-    
+
     try:
         # Dekripsi API key
         api_k = decrypt_api_key(encrypted_api_key, passwrd, salt)
