@@ -191,7 +191,7 @@ def main():
             st.chat_message("user").markdown(user_msg)
 
             with st.chat_message("assistant"):
-                with st.spinner("Habibi mengetik..."):
+                with st.spinner("Sedang mengetik..."):
                     response_placeholder = st.empty()
                     full_response = chatbot.process_user_input(user_msg)
                     response_placeholder.markdown(full_response)
