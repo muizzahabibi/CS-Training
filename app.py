@@ -129,7 +129,7 @@ def main():
         save_history()
 
     dl = st.empty()
-    st.title("Chat with Habibi, Raga Pool Assistant🤖")
+    st.title("Chat with Raga Pool, Online Assistant🤖")
 
     radio_input_container = st.empty()
     text_input_container = st.empty()
