@@ -121,8 +121,8 @@ def decrypt_api_key(encrypted_api_key: bytes, password: str, salt: bytes) -> str
     return fernet.decrypt(encrypted_api_key).decode()
 
 def main():
-    encrypted_api_key = b'gAAAAABm61o_UvG_BNFpe-5pSykVmGCu_9e8pXtYkjYPAM5lU_4aw4kIoGXqpSj_En59OCCAFJ3UQ5fD3Z518uE74aS5I84b7L8qFykGC3BlG_PtKwk-120OUwVpH-CVcLkxxcz0fm3C0EwhrYiNBWkpsQ3w4FfKdK-dLjT_91TSwqj_TYKyahCirK4eVF69wAVnEjaWib2CuNntY6W_Eqm4Qp4s7i1-cQ=='
-    salt = b'\xb9\xe1z\xed\xfd\x84GF>w\x9c\xe6\xfd\x17\r\x14'
+    encrypted_api_key = b'gAAAAABnNCX8OiXZEvZh6kJ1mkkXLb70UEOF6Amdr81FgKAil53gYMT-MRo7_GIZWVlXqwT2UDzwWmjIuGwzv_s7M33WoN6yQJazE0EJ8d444fIXwM33YZLkEKAJkgYDgg7ltc0jhHrQJxMYE5-YOgSxI1K7QqBl4gdppoV-Onuzx7RU-LNI2rgPU7ioAFGAMOOHsl85O2pICBVbdAgCo0_8WdKRfy1SUQ=='
+    salt = b'\x11\x19^\xc2K\xd8GS\x8eC\x16Rv\xdd\x102'
 
 
     if st.button("Save History"):
