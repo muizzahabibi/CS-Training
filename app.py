@@ -123,8 +123,7 @@ def decrypt_api_key(encrypted_api_key: bytes, password: str, salt: bytes) -> str
 def main():
     encrypted_api_key = b'gAAAAABnNCX8OiXZEvZh6kJ1mkkXLb70UEOF6Amdr81FgKAil53gYMT-MRo7_GIZWVlXqwT2UDzwWmjIuGwzv_s7M33WoN6yQJazE0EJ8d444fIXwM33YZLkEKAJkgYDgg7ltc0jhHrQJxMYE5-YOgSxI1K7QqBl4gdppoV-Onuzx7RU-LNI2rgPU7ioAFGAMOOHsl85O2pICBVbdAgCo0_8WdKRfy1SUQ=='
     salt = b'\x11\x19^\xc2K\xd8GS\x8eC\x16Rv\xdd\x102'
-
-
+	
     if st.button("Save History"):
         save_history()
 
@@ -145,8 +144,6 @@ def main():
         
     except Exception as e:
         st.warning("Mohon masukan password yang benar", icon="⚠️")
-
-    
 
     if api_k:
         roles = {
